@@ -46,7 +46,7 @@ decision matrix
 
 e.g. first row means: city 1 -> city 2: 1000km, city 1 -> city 3: 2000km, city 1 -> city 4: 3000km
 
-_decision matrix_ from nearest neighbor
+_decision matrix_ from nearest neighbor and 2-opt
 
 ```
 [
