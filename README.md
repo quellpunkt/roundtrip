@@ -3,16 +3,57 @@ This project was created for my bachelor thesis. It implements heuristics to sol
 
 You can see a live demo here: www.roundtrip.at
 
-# Which algorithms are implemented?
+## Which algorithms are implemented?
 
 An initial solution is found with the Nearest Neighbor algorithm. In each step one looks for the nearest stop (that is not considered yet) and adds it to the route. This creates the initial tour which is used for the 2-opt algorithm (a tour improvement algorithm). This algorithm needs an initial solution and inverses the order between two stops in each step. If an improvement is found, this new route is used and the inversion starts again. This happens until no improvement can be found.
 
-# Usage
+## Usage
 
-roundtrip.nearestNeighbor(distanceMatrix);
-parameter: distanceMatrix distance/duration/cost matrix, 2 dimensional array, first index: rows, second index: columns. if row index === column index value must be 'undef'; [0][0] is the starting point
-returns decision matrix: 2 dimensional binary array. decision[0][1] = 1 means that you are going from stop 0 to stop 1; only one row has a column with 1 in it, otherwise it is 0
+### roundtrip.nearestNeighbor(dMatrix)
 
-roundtrip.twoOpt(decisionMatrix, distanceMatrix);
-parameter decisionMatrx (e.g. from nearestNeighbor) and distanceMatrix like for nearestNeighbor
-returns a decision matrix
+* _parameter dMatrix_
+distance/duration/cost matrix
+2 dimensional array: [row][column], "undef" if row=column
+[0][0] starting point
+
+* _returns_
+decision matrix
+ 2 dimensional array: [row][column], 1 if you are going from location represented by row to location represented by column, otherwise 0.
+
+
+### roundtrip.twoOpt(decisionMatrix, dMatrix)
+
+* _parameter decisionMatrix_
+decision matrix (e.g. from nearestNeighbor)
+
+* _parameter dMatrix_
+distance/duration/cost matrix
+
+* _returns_
+decision matrix
+
+### example
+ _dMatrix_
+ 
+ ```
+ [
+    ["undef", 1000, 2000, 3000],
+    [1000, "undef", 1000, 2000],
+    [2000, 1000, "undef", 1000],
+    [3000, 2000, 1000, "undef"]
+]
+```
+
+e.g. first row means: city 1 -> city 2: 1000km, city 1 -> city 3: 2000km, city 1 -> city 4: 3000km
+
+_decision matrix_ from nearest neighbor
+
+```
+[
+    [0, 1, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
+    [1, 0, 0, 0]
+]
+```
+this means you go from city 1 -> city 2 -> city 3 -> city 4 -> city 1
